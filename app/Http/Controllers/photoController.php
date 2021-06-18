@@ -46,7 +46,13 @@ class photoController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'img_alt' => 'required',
+            'category_id' => 'required',
+            'image' => 'required|mimes:jpeg,png,jpg,gif,svg',
+         ]); 
         if($request->has('image')){
+
             $image = $request->file('image');
             $reImage = time() . '.' .$image->getClientOriginalExtension();
             $dest = public_path('images');
@@ -58,8 +64,7 @@ class photoController extends Controller
             $save_data->save();
             return redirect(route('photo.index'))->with(['success' => 'photo Added!!']);
         }
-        
-
+       
         
     }
 
@@ -103,15 +108,26 @@ class photoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $photo = photo::where('id', $id)->update([
-            'image' => $request->image,
-            'category_id' => $request->category_id,
-    ]);
+        $request->validate([
+            'img_alt' => 'required',
+            'category_id' => 'required',
+            'image' => 'required|mimes:jpeg,png,jpg,gif,svg',
+         ]); 
 
-    
+        if($request->has('image')){
+        $image = $request->file('image');
+        $reImage = time() . '.' .$image->getClientOriginalExtension();
+        $dest = public_path('images');
+        $image->move($dest,$reImage);
+        $save_data          = photo::where('id' , $id)->first();
+        $save_data->img_alt = $request->img_alt;
+        $save_data->category_id = $request->category_id;
+        $save_data->image = $reImage;
+        $save_data->update();
+
     return redirect(route('photo.index'))->with(['success' => 'photo edit!!']);
     }
-
+    }
     /**
      * Remove the specified resource from storage.
      *

@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    {!! Form::open(array('url' => route('photo.update', ['photo' => $photoedit->id,  'edit_photo' => $edit_photo]), 'method' => 'put')) !!}	
+    {!! Form::open(array('url' => route('photo.update', ['photo' => $photoedit->id,  'edit_photo' => $edit_photo]), 'method' => 'put', 'enctype' => 'multipart/form-data')) !!}	
 	
     <div>
         {{ Form::label('img_alt','Alternate Name',['style' => 'margin-top:70px; margin-bottom:10px;']) }}

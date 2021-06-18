@@ -47,6 +47,6 @@
     </table>
     </div>
 
-    @endsection()
+@endif()
     
 @endsection()
